@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 unsigned int randomNumber( void );
 int AnswerTheQuestion( unsigned int x , unsigned int y );
+void message( int x, unsigned int y );
+
 
 
 int main( void ){
-
 
 
 	unsigned int number1, number2,result;
@@ -20,20 +22,19 @@ int main( void ){
 
 	do{
 
-
 		printf("How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
 		result = AnswerTheQuestion( number1, number2 );
 
 	    scanf("%d", &answer );
+	    message( answer, result );
 
-	   
-
+	
 	    while( answer != result && answer != -1 ){
 
-		printf(".How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
+		printf("How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
 		scanf("%u", &answer );
+		message( answer, result );
 		}
-
 
 
 		if( answer == result ){
@@ -42,16 +43,11 @@ int main( void ){
 			number2 = randomNumber();
 	    }
 
+	}while( answer == result && answer != -1 );	
 
-
-	}while( answer == result && answer != -1 );
-
-	
-
-	
-	
 
 }
+
 
 
 unsigned int randomNumber( void ){
@@ -65,10 +61,29 @@ unsigned int randomNumber( void ){
 }
 
 
-
 int AnswerTheQuestion( unsigned int x , unsigned int y ){
 
 	return x * y;
+}
 
+
+void message( int x, unsigned int y ){
+
+	if( x == y ){
+
+		puts("Very good!");
+	}
+
+	else if( x != y && x != -1 ){
+
+		puts("No. Please try again.");
+	}
+
+	else{
+
+		puts("See you ;)");
+	}
+
+	puts(" ");
 }
 
