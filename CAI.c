@@ -3,7 +3,7 @@
 #include <time.h>
 
 
-unsigned int randomNumber( void );
+unsigned int randomNumber( unsigned int x );
 int AnswerTheQuestion( unsigned int x , unsigned int y );
 void message( int x, unsigned int y );
 unsigned int randomMesasage( void );
@@ -14,13 +14,24 @@ void percent( int x, int y );
 int main( void ){
 
 
-	unsigned int number1, number2,result, ;
+	unsigned int number1, number2, result, difficulty;
 	int answer, trueAnswer, falseAnswer, counter;
 	
 	srand( time( NULL ) );
-	number1 = randomNumber();
-	number2 = randomNumber();
+
+	
+	do{
+
+		printf("Enter the difficulty level ( 1, 2 or 3 ): ");
+		scanf("%u", &difficulty );
+
+		number1 = randomNumber( difficulty );
+		number2 = randomNumber( difficulty );
+
+	}while( difficulty <= 0 && difficulty >= 4 );
+	
 	counter = 0;
+
 
 	
 	while( counter <= 10 ){
@@ -50,8 +61,8 @@ int main( void ){
 
 			if( answer == result && counter < 10 ){
 
-	   			number1 = randomNumber();
-				number2 = randomNumber();
+	   			number1 = randomNumber( difficulty );
+				number2 = randomNumber( difficulty );
 
 				++trueAnswer;
 				++counter;
@@ -71,12 +82,28 @@ int main( void ){
 
 
 
-unsigned int randomNumber( void ){
-
+unsigned int randomNumber( unsigned int x ){
 
 	unsigned int n;
 	
-	n = 1 + ( rand() % 9 );
+	switch( x ){
+
+		case 1 :
+			n = 1 + ( rand() % 9 );
+			break;
+
+		case 2 :
+			n = 1 + ( rand() % 40 );
+			break; 
+
+		case 3 :
+			n = 20 + ( rand() % 99 );
+			break;
+
+		default:
+			puts("You entered the wrong difficulty level! ");
+
+	}	
 	
 	return n;	
 }
@@ -189,7 +216,7 @@ void percent( int x, int y ){
 
 		puts("Congratulations, you are ready to go to the next level!");
 	}
-	puts("************************");
+	puts("*******************************************************");
 }
 
 
