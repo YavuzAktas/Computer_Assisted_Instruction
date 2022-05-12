@@ -6,6 +6,7 @@
 unsigned int randomNumber( void );
 int AnswerTheQuestion( unsigned int x , unsigned int y );
 void message( int x, unsigned int y );
+unsigned int randomMesasage( void );
 
 
 
@@ -53,12 +54,13 @@ int main( void ){
 unsigned int randomNumber( void ){
 
 
-	unsigned int n1;
+	unsigned int n;
 	
-	n1 = 1 + ( rand() % 9 );
+	n = 1 + ( rand() % 9 );
 	
-	return n1;	
+	return n;	
 }
+
 
 
 int AnswerTheQuestion( unsigned int x , unsigned int y ){
@@ -67,22 +69,74 @@ int AnswerTheQuestion( unsigned int x , unsigned int y ){
 }
 
 
+
 void message( int x, unsigned int y ){
 
+	
 	if( x == y ){
 
-		puts("Very good!");
+		switch( randomMesasage() ){
+
+			case 1:
+				puts("Very good!");
+				break;
+
+			case 2:
+				puts("Excellent!");
+				break;
+
+			case 3:
+				puts("Nice work!");
+				break;
+
+			default:
+				puts("Keep up the good work!");
+		}
+
 	}
+
 
 	else if( x != y && x != -1 ){
 
-		puts("No. Please try again.");
+		switch( randomMesasage() ){
+
+			case 1:
+				puts("No. Please try again.");
+				break;
+
+			case 2:
+				puts("Wrong. Try once more.");
+				break;
+
+			case 3:
+				puts("Don't give up!");
+				break;
+
+			default:
+				puts("No. Keep trying.");
+		}
+
 	}
+
 
 	else{
 
 		puts("See you ;)");
 	}
 
+
 	puts(" ");
 }
+
+
+
+unsigned int randomMesasage( void ){
+
+	unsigned int n;
+
+	n = 1 + ( rand() % 4 );
+
+	return n;
+}
+
+
