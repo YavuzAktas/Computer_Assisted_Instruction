@@ -7,6 +7,7 @@ unsigned int randomNumber( void );
 int AnswerTheQuestion( unsigned int x , unsigned int y );
 void message( int x, unsigned int y );
 unsigned int randomMesasage( void );
+void percent( int x, int y );
 
 
 
@@ -14,11 +15,13 @@ int main( void ){
 
 
 	unsigned int number1, number2,result;
-	int answer;
+	int answer, trueAnswer, falseAnswer;
 	
 	srand( time( NULL ) );
 	number1 = randomNumber();
 	number2 = randomNumber();
+	trueAnswer = 0;
+	falseAnswer = 0;
 	
 
 	do{
@@ -32,9 +35,11 @@ int main( void ){
 	
 	    while( answer != result && answer != -1 ){
 
-		printf("How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
-		scanf("%u", &answer );
-		message( answer, result );
+			printf("How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
+			scanf("%u", &answer );
+			message( answer, result );
+			++falseAnswer;
+			
 		}
 
 
@@ -42,10 +47,13 @@ int main( void ){
 
 	   		number1 = randomNumber();
 			number2 = randomNumber();
+
+			++trueAnswer;
 	    }
 
 	}while( answer == result && answer != -1 );	
 
+	percent( trueAnswer, falseAnswer );
 
 }
 
@@ -137,6 +145,25 @@ unsigned int randomMesasage( void ){
 	n = 1 + ( rand() % 4 );
 
 	return n;
+}
+
+void percent( int x, int y ){
+
+	int percentOfCorrect;
+	percentOfCorrect = ( x * 100 ) / ( x + y );
+
+	printf("Percentage of correct questions : %%%d\n", percentOfCorrect );
+
+
+	if( percentOfCorrect < 75 ){
+
+		puts("Please ask your teacher for extra help.");
+	}
+
+	else if( percentOfCorrect >= 75 ){
+
+		puts("Congratulations, you are ready to go to the next level!");
+	}
 }
 
 
