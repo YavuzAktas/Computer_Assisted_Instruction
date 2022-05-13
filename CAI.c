@@ -4,23 +4,28 @@
 
 
 unsigned int randomNumber( unsigned int x );
-int AnswerTheQuestion( unsigned int x , unsigned int y );
+int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z );
 void message( int x, unsigned int y );
 unsigned int randomMesasage( void );
 void percent( int x, int y );
+int arithmeticProblem( unsigned int x );
 
 
 
 int main( void ){
 
 
-	unsigned int number1, number2, result, difficulty;
+	unsigned int number1, number2, result, difficulty, arithmetic;
 	int answer, trueAnswer, falseAnswer, counter;
+	char math;
 	
 	srand( time( NULL ) );
 
 	
 	do{
+
+		printf("Specify the arithmetic operation by selecting one of the numbers\n( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
+		scanf("%u", &arithmetic );
 
 		printf("Enter the difficulty level ( 1, 2 or 3 ): ");
 		scanf("%u", &difficulty );
@@ -28,13 +33,13 @@ int main( void ){
 		number1 = randomNumber( difficulty );
 		number2 = randomNumber( difficulty );
 
-	}while( difficulty <= 0 && difficulty >= 4 );
+	}while( difficulty <= 0 && difficulty >= 4 && arithmetic < 1 && arithmetic > 4 );
 	
 	counter = 0;
 
 
 	
-	while( counter <= 10 ){
+	while( counter <= 10 && arithmetic >= 1 && arithmetic <= 4 ){
 
 		trueAnswer = 0;
 		falseAnswer = 0;
@@ -42,8 +47,9 @@ int main( void ){
 	
 		do{
 
-			printf("How much is %u times %u?\n", number1, number2 );
-			result = AnswerTheQuestion( number1, number2 );
+			math =arithmeticProblem( arithmetic );
+			printf("How much is %u %c %u?\n", number1, math, number2 );
+			result = AnswerTheQuestion( number1, number2, arithmetic );
 
 	   		scanf("%d", &answer );
 	    	message( answer, result );
@@ -51,7 +57,7 @@ int main( void ){
 	
 	    	while( answer != result && counter < 10 ){
 
-				printf("How much is %u times %u?\n", number1, number2 );
+				printf("How much is %u %c %u?\n", number1, math, number2 );
 				scanf("%u", &answer );
 				message( answer, result );
 				++falseAnswer;
@@ -72,10 +78,21 @@ int main( void ){
 		}while( answer == result  && counter < 10);
 
 
-		percent( trueAnswer, falseAnswer );
+		percent( trueAnswer, falseAnswer );	
 		puts("");
 		printf("New User : \n");
 		counter = 0;
+
+		do{
+
+			printf("Specify the arithmetic operation by selectingone of the numbersSpecify the \n arithmetic operation by selecting one of the numbers \n ( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
+			scanf("%u", &arithmetic );			
+		
+		}while( arithmetic > 4 && arithmetic < 1 );
+
+
+		printf("Enter the difficulty level ( 1, 2 or 3 ): ");
+		scanf("%u", &difficulty );
 	}
 }
 
@@ -107,15 +124,6 @@ unsigned int randomNumber( unsigned int x ){
 	
 	return n;	
 }
-
-
-
-
-int AnswerTheQuestion( unsigned int x , unsigned int y ){
-
-	return x * y;
-}
-
 
 
 
@@ -219,4 +227,124 @@ void percent( int x, int y ){
 	puts("*******************************************************");
 }
 
+
+
+int arithmeticProblem( unsigned int x ){
+
+	if( x == 1 ){
+
+		return 43;
+	}
+
+	else if( x == 2 ){
+
+		return 45;
+	}
+
+	else if( x == 3 ){
+
+		return 42;
+	}
+
+	else {
+
+		switch( randomMesasage() ){
+
+			case 1: 
+				return 43;
+				break;
+
+			case 2: 
+				return 45;
+				break;
+
+			case 3:
+				return 42;
+				break;
+
+			default:
+				return 47;
+		}
+	}
+}
+
+int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z ){
+
+	unsigned int backupNumber;
+	backupNumber = 1;
+
+	if( z == 1 ){
+
+		return x + y;
+	}
+
+	
+	else if( z == 2 ){
+
+		if( x >= y ){
+
+			return x - y;
+		}
+
+		else{
+
+			backupNumber = x;
+			x = y;
+			y = backupNumber;
+
+			return x - y;
+		}
+	}
+
+	
+	else if( z == 3 ){
+
+		return x * y;
+	}
+
+	
+	else if( z == 4 ){
+
+		switch( randomMesasage() ){
+
+			case 1: 
+				return x + y;
+				break;                         
+
+			case 2: 
+				if( x >= y ){
+
+					return x - y;
+				}
+
+				else{
+
+					backupNumber = x;
+					x = y;
+					y = backupNumber;
+
+					return x - y;
+				}
+				break;
+
+			case 3:
+				return x * y;
+				break;
+
+			default:
+				if( x >= y ){
+
+					return x / y;
+				}
+
+				else{
+
+					backupNumber = x;
+					x = y;
+					y = backupNumber;
+					return x / y;
+				}
+		}
+	}     
+}
 
