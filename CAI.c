@@ -3,127 +3,200 @@
 #include <time.h>
 
 
-unsigned int randomNumber( void );
-int AnswerTheQuestion( unsigned int x , unsigned int y );
-void message( int x, unsigned int y );
-unsigned int randomMesasage( void );
+unsigned int randomNumber( unsigned int x );
+int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z, unsigned int t );
+void message( int x, unsigned int y, unsigned int z );
 void percent( int x, int y );
+int arithmeticProblem( unsigned int x, unsigned int y );
 
 
 
 int main( void ){
 
 
-	unsigned int number1, number2,result;
-	int answer, trueAnswer, falseAnswer;
+	unsigned int number1, number2, result, difficulty, arithmetic, backupNumber;
+	int answer, trueAnswer, falseAnswer, counter;
+	char math;
+	unsigned int n;
 	
 	srand( time( NULL ) );
-	number1 = randomNumber();
-	number2 = randomNumber();
-	trueAnswer = 0;
-	falseAnswer = 0;
-	
 
+	
 	do{
 
-		printf("How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
-		result = AnswerTheQuestion( number1, number2 );
+		printf("Specify the arithmetic operation by selecting one of the numbers\n( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
+		scanf("%u", &arithmetic );
 
-	    scanf("%d", &answer );
-	    message( answer, result );
+		printf("Enter the difficulty level ( 1, 2 or 3 ): ");
+		scanf("%u", &difficulty );
 
-	
-	    while( answer != result && answer != -1 ){
+		number1 = randomNumber( difficulty );
+		number2 = randomNumber( difficulty );
 
-			printf("How much is %u times %u? ( Press -1 to exit )\n", number1, number2 );
-			scanf("%u", &answer );
-			message( answer, result );
-			++falseAnswer;
-			
+		if( number1 < number2 ){
+
+			backupNumber = number1;
+			number1 = number2;
+			number2 = backupNumber;
 		}
 
 
-		if( answer == result ){
+	}while( difficulty <= 0 && difficulty >= 4 && arithmetic < 1 && arithmetic > 4 );
+	
+	counter = 0;
 
-	   		number1 = randomNumber();
-			number2 = randomNumber();
 
-			++trueAnswer;
-	    }
+	
+	while( counter <= 10 && arithmetic >= 1 && arithmetic <= 4 ){
 
-	}while( answer == result && answer != -1 );	
+		trueAnswer = 0;
+		falseAnswer = 0;
 
-	percent( trueAnswer, falseAnswer );
+	
+		do{
 
+			n = 1 + ( rand() % 4 );
+			math =arithmeticProblem( arithmetic, n );
+			printf("How much is %u %c %u?\n", number1, math, number2 );
+			result = AnswerTheQuestion( number1, number2, arithmetic, n );
+
+	   		scanf("%d", &answer );
+	    	message( answer, result, n );
+
+	
+	    	while( answer != result && counter < 10 ){
+
+				printf("How much is %u %c %u?\n", number1, math, number2 );
+				scanf("%u", &answer );
+				message( answer, result, n );
+				++falseAnswer;
+				++counter;
+			}
+
+
+			if( answer == result && counter < 10 ){
+
+	   			number1 = randomNumber( difficulty );
+				number2 = randomNumber( difficulty );
+
+				if( number1 < number2 ){
+
+					backupNumber = number1;
+					number1 = number2;
+					number2 = backupNumber;
+				}
+
+				++trueAnswer;
+				++counter;
+	    	}
+
+
+		}while( answer == result  && counter < 10);
+
+
+		percent( trueAnswer, falseAnswer );	
+		puts("");
+		printf("New User : \n");
+		counter = 0;
+
+		do{
+
+			printf("Specify the arithmetic operation by selectingone of the numbers\n( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
+			scanf("%u", &arithmetic );			
+		
+		}while( arithmetic > 4 && arithmetic < 1 );
+
+
+		printf("Enter the difficulty level ( 1, 2 or 3 ): ");
+		scanf("%u", &difficulty );
+	}
 }
 
 
 
-unsigned int randomNumber( void ){
 
+unsigned int randomNumber( unsigned int x ){
 
 	unsigned int n;
 	
-	n = 1 + ( rand() % 9 );
+	switch( x ){
+
+		case 1 :
+			n = 1 + ( rand() % 9 );
+			break;
+
+		case 2 :
+			n = 1 + ( rand() % 40 );
+			break; 
+
+		case 3 :
+			n = 20 + ( rand() % 99 );
+			break;
+
+		default:
+			puts("You entered the wrong difficulty level! ");
+
+	}	
 	
 	return n;	
 }
 
 
 
-int AnswerTheQuestion( unsigned int x , unsigned int y ){
-
-	return x * y;
-}
-
-
-
-void message( int x, unsigned int y ){
+void message( int x, unsigned int y, unsigned int z ){
 
 	
 	if( x == y ){
 
-		switch( randomMesasage() ){
+		switch( z ){
 
 			case 1:
 				puts("Very good!");
+				puts("----------------------");
 				break;
 
 			case 2:
 				puts("Excellent!");
+				puts("----------------------");
 				break;
 
 			case 3:
 				puts("Nice work!");
+				puts("----------------------");
 				break;
 
 			default:
 				puts("Keep up the good work!");
+				puts("----------------------");
+				break;
 		}
-
 	}
 
 
 	else if( x != y && x != -1 ){
 
-		switch( randomMesasage() ){
+		switch( z ){
 
 			case 1:
 				puts("No. Please try again.");
+				puts("----------------------");
 				break;
 
 			case 2:
 				puts("Wrong. Try once more.");
+				puts("----------------------");
 				break;
 
 			case 3:
 				puts("Don't give up!");
+				puts("----------------------");
 				break;
 
 			default:
 				puts("No. Keep trying.");
+				puts("----------------------");
+				break;
 		}
-
 	}
 
 
@@ -137,15 +210,6 @@ void message( int x, unsigned int y ){
 }
 
 
-
-unsigned int randomMesasage( void ){
-
-	unsigned int n;
-
-	n = 1 + ( rand() % 4 );
-
-	return n;
-}
 
 void percent( int x, int y ){
 
@@ -164,6 +228,96 @@ void percent( int x, int y ){
 
 		puts("Congratulations, you are ready to go to the next level!");
 	}
+	puts("*******************************************************");
 }
+
+
+
+int arithmeticProblem( unsigned int x , unsigned int y ){
+
+	if( x == 1 ){
+
+		return 43;
+	}
+
+	else if( x == 2 ){
+
+		return 45;
+	}
+
+	else if( x == 3 ){
+
+		return 42;
+	}
+
+	else {
+
+		switch( y ){
+
+			case 1: 
+				return 43;
+				break;
+
+			case 2: 
+				return 45;
+				break;
+
+			case 3:
+				return 42;
+				break;
+
+			default:
+				return 47;
+		}
+	}
+}
+
+int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z, unsigned int t ){
+
+	unsigned int backupNumber;
+	backupNumber = 1;
+
+	if( z == 1 ){
+
+		return x + y;
+	}
+
+	
+	else if( z == 2 ){
+
+		return x - y;
+	}
+
+	
+	else if( z == 3 ){
+
+		return x * y;
+	}
+
+	
+	else if( z == 4 ){
+
+		switch( t ){
+
+			case 1: 
+				return x + y;
+				break;                         
+
+			case 2: 
+				return x - y;
+				break;
+
+			case 3:
+				return x * y;
+				break;
+
+			default:
+				return x / y;
+				break;
+		}
+	}
+}
+
+
 
 
