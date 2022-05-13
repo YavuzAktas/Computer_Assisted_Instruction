@@ -4,20 +4,20 @@
 
 
 unsigned int randomNumber( unsigned int x );
-int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z );
-void message( int x, unsigned int y );
-unsigned int randomMesasage( void );
+int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z, unsigned int t );
+void message( int x, unsigned int y, unsigned int z );
 void percent( int x, int y );
-int arithmeticProblem( unsigned int x );
+int arithmeticProblem( unsigned int x, unsigned int y );
 
 
 
 int main( void ){
 
 
-	unsigned int number1, number2, result, difficulty, arithmetic;
+	unsigned int number1, number2, result, difficulty, arithmetic, backupNumber;
 	int answer, trueAnswer, falseAnswer, counter;
 	char math;
+	unsigned int n;
 	
 	srand( time( NULL ) );
 
@@ -33,6 +33,14 @@ int main( void ){
 		number1 = randomNumber( difficulty );
 		number2 = randomNumber( difficulty );
 
+		if( number1 < number2 ){
+
+			backupNumber = number1;
+			number1 = number2;
+			number2 = backupNumber;
+		}
+
+
 	}while( difficulty <= 0 && difficulty >= 4 && arithmetic < 1 && arithmetic > 4 );
 	
 	counter = 0;
@@ -47,19 +55,20 @@ int main( void ){
 	
 		do{
 
-			math =arithmeticProblem( arithmetic );
+			n = 1 + ( rand() % 4 );
+			math =arithmeticProblem( arithmetic, n );
 			printf("How much is %u %c %u?\n", number1, math, number2 );
-			result = AnswerTheQuestion( number1, number2, arithmetic );
+			result = AnswerTheQuestion( number1, number2, arithmetic, n );
 
 	   		scanf("%d", &answer );
-	    	message( answer, result );
+	    	message( answer, result, n );
 
 	
 	    	while( answer != result && counter < 10 ){
 
 				printf("How much is %u %c %u?\n", number1, math, number2 );
 				scanf("%u", &answer );
-				message( answer, result );
+				message( answer, result, n );
 				++falseAnswer;
 				++counter;
 			}
@@ -69,6 +78,13 @@ int main( void ){
 
 	   			number1 = randomNumber( difficulty );
 				number2 = randomNumber( difficulty );
+
+				if( number1 < number2 ){
+
+					backupNumber = number1;
+					number1 = number2;
+					number2 = backupNumber;
+				}
 
 				++trueAnswer;
 				++counter;
@@ -85,7 +101,7 @@ int main( void ){
 
 		do{
 
-			printf("Specify the arithmetic operation by selectingone of the numbersSpecify the \n arithmetic operation by selecting one of the numbers \n ( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
+			printf("Specify the arithmetic operation by selectingone of the numbers\n( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
 			scanf("%u", &arithmetic );			
 		
 		}while( arithmetic > 4 && arithmetic < 1 );
@@ -127,12 +143,12 @@ unsigned int randomNumber( unsigned int x ){
 
 
 
-void message( int x, unsigned int y ){
+void message( int x, unsigned int y, unsigned int z ){
 
 	
 	if( x == y ){
 
-		switch( randomMesasage() ){
+		switch( z ){
 
 			case 1:
 				puts("Very good!");
@@ -159,7 +175,7 @@ void message( int x, unsigned int y ){
 
 	else if( x != y && x != -1 ){
 
-		switch( randomMesasage() ){
+		switch( z ){
 
 			case 1:
 				puts("No. Please try again.");
@@ -195,18 +211,6 @@ void message( int x, unsigned int y ){
 
 
 
-
-unsigned int randomMesasage( void ){
-
-	unsigned int n;
-
-	n = 1 + ( rand() % 4 );
-
-	return n;
-}
-
-
-
 void percent( int x, int y ){
 
 	int percentOfCorrect;
@@ -229,7 +233,7 @@ void percent( int x, int y ){
 
 
 
-int arithmeticProblem( unsigned int x ){
+int arithmeticProblem( unsigned int x , unsigned int y ){
 
 	if( x == 1 ){
 
@@ -248,7 +252,7 @@ int arithmeticProblem( unsigned int x ){
 
 	else {
 
-		switch( randomMesasage() ){
+		switch( y ){
 
 			case 1: 
 				return 43;
@@ -268,7 +272,7 @@ int arithmeticProblem( unsigned int x ){
 	}
 }
 
-int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z ){
+int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z, unsigned int t ){
 
 	unsigned int backupNumber;
 	backupNumber = 1;
@@ -281,19 +285,7 @@ int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z ){
 	
 	else if( z == 2 ){
 
-		if( x >= y ){
-
-			return x - y;
-		}
-
-		else{
-
-			backupNumber = x;
-			x = y;
-			y = backupNumber;
-
-			return x - y;
-		}
+		return x - y;
 	}
 
 	
@@ -305,26 +297,14 @@ int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z ){
 	
 	else if( z == 4 ){
 
-		switch( randomMesasage() ){
+		switch( t ){
 
 			case 1: 
 				return x + y;
 				break;                         
 
 			case 2: 
-				if( x >= y ){
-
-					return x - y;
-				}
-
-				else{
-
-					backupNumber = x;
-					x = y;
-					y = backupNumber;
-
-					return x - y;
-				}
+				return x - y;
 				break;
 
 			case 3:
@@ -332,19 +312,12 @@ int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z ){
 				break;
 
 			default:
-				if( x >= y ){
-
-					return x / y;
-				}
-
-				else{
-
-					backupNumber = x;
-					x = y;
-					y = backupNumber;
-					return x / y;
-				}
+				return x / y;
+				break;
 		}
-	}     
+	}
 }
+
+
+
 
