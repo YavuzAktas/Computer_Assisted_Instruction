@@ -253,6 +253,7 @@ int arithmeticProblem( unsigned int x , unsigned int y ){
 	}
 }
 
+
 int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z, unsigned int t ){
 
 	unsigned int backupNumber;
@@ -262,19 +263,16 @@ int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z, unsigne
 
 		return x + y;
 	}
-
 	
 	else if( z == 2 ){
 
 		return x - y;
 	}
-
 	
 	else if( z == 3 ){
 
 		return x * y;
 	}
-
 	
 	else if( z == 4 ){
 
