@@ -2,17 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 unsigned int randomNumber( unsigned int x );
-int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z, unsigned int t );
-void message( int x, unsigned int y, unsigned int z );
+int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z, unsigned int t ); //
+void message( int x, unsigned int y );
 void percent( int x, int y );
 int arithmeticProblem( unsigned int x, unsigned int y );
-
+unsigned int randomMessage( void );
 
 
 int main( void ){
-
 
 	unsigned int number1, number2, result, difficulty, arithmetic, backupNumber;
 	int answer, trueAnswer, falseAnswer, counter;
@@ -21,7 +19,6 @@ int main( void ){
 	
 	srand( time( NULL ) );
 
-	
 	do{
 
 		printf("Specify the arithmetic operation by selecting one of the numbers\n( 1- Addition problems   2- Subtraction problem   3- Multiplication problems   4- Random mixture of all these types ) : ");
@@ -40,19 +37,16 @@ int main( void ){
 			number2 = backupNumber;
 		}
 
-
 	}while( difficulty <= 0 && difficulty >= 4 && arithmetic < 1 && arithmetic > 4 );
 	
 	counter = 0;
 
 
-	
 	while( counter <= 10 && arithmetic >= 1 && arithmetic <= 4 ){
 
 		trueAnswer = 0;
 		falseAnswer = 0;
 
-	
 		do{
 
 			n = 1 + ( rand() % 4 );
@@ -61,18 +55,17 @@ int main( void ){
 			result = AnswerTheQuestion( number1, number2, arithmetic, n );
 
 	   		scanf("%d", &answer );
-	    	message( answer, result, n );
+	    	message( answer, result );
 
 	
 	    	while( answer != result && counter < 10 ){
 
 				printf("How much is %u %c %u?\n", number1, math, number2 );
 				scanf("%u", &answer );
-				message( answer, result, n );
+				message( answer, result );
 				++falseAnswer;
 				++counter;
 			}
-
 
 			if( answer == result && counter < 10 ){
 
@@ -90,9 +83,7 @@ int main( void ){
 				++counter;
 	    	}
 
-
 		}while( answer == result  && counter < 10);
-
 
 		percent( trueAnswer, falseAnswer );	
 		puts("");
@@ -111,7 +102,6 @@ int main( void ){
 		scanf("%u", &difficulty );
 	}
 }
-
 
 
 
@@ -135,20 +125,17 @@ unsigned int randomNumber( unsigned int x ){
 
 		default:
 			puts("You entered the wrong difficulty level! ");
-
 	}	
 	
 	return n;	
 }
 
 
-
-void message( int x, unsigned int y, unsigned int z ){
-
+void message( int x, unsigned int y ){
 	
 	if( x == y ){
 
-		switch( z ){
+		switch( randomMessage() ){
 
 			case 1:
 				puts("Very good!");
@@ -172,10 +159,9 @@ void message( int x, unsigned int y, unsigned int z ){
 		}
 	}
 
-
 	else if( x != y && x != -1 ){
 
-		switch( z ){
+		switch( randomMessage() ){
 
 			case 1:
 				puts("No. Please try again.");
@@ -199,16 +185,13 @@ void message( int x, unsigned int y, unsigned int z ){
 		}
 	}
 
-
 	else{
 
 		puts("See you ;)");
 	}
 
-
 	puts(" ");
 }
-
 
 
 void percent( int x, int y ){
@@ -217,7 +200,6 @@ void percent( int x, int y ){
 	percentOfCorrect = ( x * 100 ) / ( x + y );
 
 	printf("Percentage of correct questions : %%%d\n", percentOfCorrect );
-
 
 	if( percentOfCorrect < 75 ){
 
@@ -230,7 +212,6 @@ void percent( int x, int y ){
 	}
 	puts("*******************************************************");
 }
-
 
 
 int arithmeticProblem( unsigned int x , unsigned int y ){
@@ -318,6 +299,10 @@ int AnswerTheQuestion( unsigned int x , unsigned int y , unsigned int z, unsigne
 	}
 }
 
+unsigned int randomMessage( void ){
 
+	unsigned int x;
+	x = 1 + ( rand() % 4 );
 
-
+	return x;
+}
