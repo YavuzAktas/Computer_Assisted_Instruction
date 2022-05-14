@@ -4,7 +4,7 @@
 
 unsigned int randomNumber( unsigned int x );
 int AnswerTheQuestion( unsigned int x , unsigned int y, unsigned int z, unsigned int t ); //
-void message( int x, unsigned int y, unsigned int z );
+void message( int x, unsigned int y );
 void percent( int x, int y );
 int arithmeticProblem( unsigned int x, unsigned int y );
 unsigned int randomMessage( void );
